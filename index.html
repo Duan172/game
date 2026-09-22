@@ -195,11 +195,51 @@
       const loose=order.map(id=>pieces[id]).filter(p=>!placed[p.id]);
 
       return <main className="min-h-screen p-4 sm:p-7" style={{background:'linear-gradient(135deg,#f8fafc,#eef2f8)'}}>
-        <div className="max-w-7xl mx-auto">
-          <header className="rounded-3xl bg-white border border-slate-200 px-5 py-5 sm:px-7 shadow-sm flex flex-wrap items-center justify-between gap-4">
-            <div><a href="#/" className="inline-flex items-center gap-1 text-sm font-bold text-slate-500 hover:text-slate-900"><i data-lucide="arrow-left" className="w-4 h-4"></i> Back to Home</a><h1 className="text-2xl sm:text-3xl font-extrabold mt-2">🏁 PUZZLE RACE <span className="text-slate-400">–</span> <span style={{color:team.color}}>{team.name}</span></h1></div>
-            <Timer running={!complete} resetToken={resetToken}/>
-          </header>
+    <div className="max-w-7xl mx-auto">
+      <header className="rounded-3xl bg-white border border-slate-200 px-5 py-5 sm:px-7 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div><a href="#/" className="inline-flex items-center gap-1 text-sm font-bold text-slate-500 hover:text-slate-900"><i data-lucide="arrow-left" className="w-4 h-4"></i> Back to Home</a><h1 className="text-2xl sm:text-3xl font-extrabold mt-2">🏁 PUZZLE RACE <span className="text-slate-400">–</span> <span style={{color:team.color}}>{team.name}</span></h1></div>
+        <Timer running={!complete} resetToken={resetToken}/>
+      </header>
+      <section className="mt-5 rounded-3xl bg-white border border-slate-200 p-5 sm:p-7 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-6">
+          <div><p className="mono text-xs font-bold tracking-widest" style={{color:team.color}}>YOUR ROUTE</p><h2 className="text-xl font-extrabold mt-1">{team.name} Landmark Puzzle</h2></div>
+          <div className="w-full md:w-80"><ProgressBar count={placedCount} color={team.color}/></div>
+        </div>
+        {imageError ? <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-5 text-red-800"><strong>Image unavailable.</strong> The landmark image could not be loaded. Please check the supplied asset filename and try again.</div> :
+        <div className="game-grid grid grid-cols-[minmax(0,1.2fr)_minmax(280px,.8fr)] gap-7 items-start">
+          <section aria-label="Puzzle board" className="rounded-2xl p-3 sm:p-5 border-2" style={{background:team.soft,borderColor:team.color+'40'}}>
+            {complete && <div className="mb-4 rounded-xl px-4 py-3 font-bold text-center text-white" style={{background:team.color}}>Picture complete! Question unlocked.</div>}
+            <div className="grid grid-cols-5 w-full max-w-[620px] mx-auto aspect-square">
+              {pieces.map(piece=><div key={piece.id} data-slot={piece.id} className={`slot relative aspect-square flex items-center justify-center ${placed[piece.id]?'locked':''}`} aria-label={`Target position row ${piece.row+1}, column ${piece.col+1}`}>
+                {placed[piece.id] ? 
+                  <PieceSvg piece={piece} image={team.image} className="w-[136%] h-[136%] relative z-10" /> : 
+                  <svg viewBox="-18 -18 136 136" className="w-[136%] h-[136%]" aria-hidden="true"><path d={pathFor(piece)} fill="rgba(255,255,255,.55)" stroke={team.color} strokeWidth="1.6" strokeDasharray="4 4"/></svg>
+                }
+              </div>)}
+            </div>
+          </section>
+          <aside className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+            <h2 className="font-extrabold text-lg">Piece tray</h2>
+            <p className="text-sm text-slate-600 mt-1">Drag and drop pieces into the matching spaces.</p>
+            <div className="tray-grid grid grid-cols-5 gap-1 sm:gap-2 mt-5">
+              {loose.map(piece=><button key={piece.id} type="button" className="piece-button aspect-square rounded-md" aria-label={`Puzzle piece row ${piece.row+1}, column ${piece.col+1}`} onPointerDown={e=>startDrag(e,piece)} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
+                <PieceSvg piece={piece} image={team.image} className="w-full h-full"/>
+              </button>)}
+              {!loose.length && <div className="col-span-5 rounded-xl bg-white p-4 text-center text-sm font-bold text-slate-600">All pieces placed!</div>}
+            </div>
+            <div className="mt-5 rounded-xl bg-white border border-slate-200 p-3 text-sm text-slate-600"><i data-lucide="mouse-pointer-2" className="inline w-4 h-4 mr-1"></i> Matching pieces lock into place.</div>
+          </aside>
+        </div>}
+        <p role="status" aria-live="polite" className="mt-5 min-h-6 text-center font-bold" style={{color:team.color}}>{message}</p>
+        <footer className="mt-3 text-center text-sm font-semibold text-slate-500">Place all 25 pieces to unlock the question!</footer>
+      </section>
+      <section className="mt-5 rounded-2xl bg-white border border-slate-200 p-4">
+        <h2 className="mono text-xs font-bold tracking-widest text-slate-500 mb-3">TEAM STATUS</h2>
+        <div className="flex flex-wrap gap-2">{teams.map(t=><a key={t.id} href={`#/${t.id}`} className="rounded-full px-3 py-2 text-xs font-bold no-underline" style={{background:t.id===team.id?t.color:t.soft,color:t.id===team.id?'white':t.color}}>{t.name}</a>)}</div>
+      </section>
+    </div>
+    {showQuestion && <QuestionModal team={team} onReset={reset} onHome={()=>location.hash='#/'}/>}
+  </main>;
 
           <section className="mt-5 rounded-3xl bg-white border border-slate-200 p-5 sm:p-7 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-6">
