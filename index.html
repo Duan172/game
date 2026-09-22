@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260922-01-d619e84","C":{"Abril Fatface":"YACgEZbkUVE,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo":"YACgEZulLoA,0","Arial Narrow":"YAGyDvJ_4Ts,0","Arial Rounded MT Bold":"YAFcfoaHu-s,0","Arial":"YAGyDvJ_4Ts,0","Avenir Next":"YAFcfmNq6UY,0","Baloo 2":"YADK30bC6HQ,0","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Broken Glyph":"YADZ-exUkv0,0","Canva Sans":"YAFdJjTk5UU,1","Caveat":"YALBs2ploWQ,0","Comic Sans MS":"YAFcfvtOAUY,1","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","Courier Prime":"YAD1aFjegN8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAFdJpU7Kkk,0","Georgia":"YAGzXkO0pEM,0","Ghost Mono":"YAHQutsX00Q,0","Hanken Grotesk":"YAFcfhwp99E,0","Helvetica Neue":"YAFcf6CtJfI,0","Helvetica":"YAFcf6CtJfI,0","IBM Plex Mono":"YAFdJkmvhGI,0","Impact":"YAFcfnjI7Vk,0","Instrument Serif":"YAHFeOnZNEk,0","Inter":"YAFdJvSyp_k,3","Iowan Old Style":"YAGNIFa8j9o,0","Jacques Francois":"YADK3zbC6RM,0","JetBrains Mono":"YAFdJksXcAk,0","Josefin Sans":"YAFdJjvw9Ps,0","Lato":"YAFdJuFCnaw,0","Libre Baskerville":"YACgEUFdPdA,0","Lobster":"YAD8SnSjSFI,0","Lora":"YACgEXvxf8Q,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YAFdtQi73Xs,0","Nunito":"YAFdJoNRMmU,1","Oleo Script":"YACgEQQ14jI,0","Oswald":"YACgEQY10lw,0","Pacifico":"YADLjORQ1u4,0","Phantom Sans":"YAFdJvgJ5TU,0","Playfair Display":"YAFdJhem5V8,1","Plus Jakarta Sans":"YAGvf3_u0_Q,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Quicksand":"YAFdJpYtCxE,1","Raleway":"YAFdJhmxbVQ,1","Roboto Slab":"YAFdJswIKAg,0","Rockwell":"YAFcfyVZnN0,0","Rye":"YACgEdQP21k,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Source Serif 4":"YACgEfdj394,0","Space Grotesk":"YADZ-dYEmhg,0","Space Mono":"YADW1-vpsoc,0","Times New Roman":"YAGzXW3gftg,0","Times":"YAGzXW3gftg,0","Trebuchet MS":"YAFcfrglpVA,0","UV Display":"YAEdVfSSpYo,0","UV Sans":"YAFdJvgJ5TU,0","Ubuntu":"YACgERDU--Q,0","Verdana":"YAGzXTctYtQ,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0","ui-monospace":"YAD1aFjegN8,0","ui-sans-serif":"YACkoD1yZN0,0"}}');</script><script src="/_sdk/83d6dfdadcd4750a.telemetry_sdk.js" integrity="sha512-XS4Dvzp6vbagZS9vFErihvr8aO3S0tH78KWUefn06fmL4WYqryBtZj/IOLITYj7dFA4gPVvPg1W/JB1DK3uLNQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puzzle Race</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#172033; --paper:#f5f7fb; --line:#dce2ee; }
+    * { box-sizing:border-box; }
+    body { margin:0; width:100%; min-height:100%; font-family:"DM Sans",sans-serif; color:var(--ink); }
+    button,input { font:inherit; }
+    button:focus-visible,input:focus-visible { outline:3px solid #172033; outline-offset:3px; }
+    .mono { font-family:"Space Mono",monospace; }
+    .fade-up { animation:fadeUp .45s ease both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pop { 0%{transform:scale(.8);opacity:0} 70%{transform:scale(1.04)} 100%{transform:scale(1);opacity:1} }
+    @keyframes pulseGlow { 50% { box-shadow:0 0 0 9px rgba(255,255,255,.48),0 15px 30px rgba(23,32,51,.18); } }
+    .locked { animation:pulseGlow .55s ease-out; }
+    .piece-button { touch-action:none; user-select:none; -webkit-user-select:none; cursor:grab; }
+    .piece-button:active { cursor:grabbing; }
+    .slot { transition:background .2s ease, transform .2s ease; }
+    .slot.over { background:rgba(23,32,51,.09); transform:scale(1.025); }
+    .ghost { position:fixed; z-index:100; width:86px; pointer-events:none; filter:drop-shadow(0 16px 12px rgba(23,32,51,.24)); transform:translate(-50%,-50%) rotate(3deg) scale(1.08); }
+    .modal-backdrop { animation:fadeIn .2s ease both; }
+    @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+    .modal-card { animation:pop .32s ease both; }
+    .confetti { position:absolute; width:10px; height:18px; border-radius:3px; animation:fall 1.6s ease-in infinite; }
+    @keyframes fall { from { transform:translateY(-30px) rotate(0deg); opacity:0 } 15%{opacity:1} to { transform:translateY(360px) rotate(430deg); opacity:0 } }
+    @media (max-width: 760px) {
+      .game-grid { grid-template-columns:1fr !important; }
+      .tray-grid { grid-template-columns:repeat(5,minmax(44px,1fr)) !important; }
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/8de366929c5f3b48.data_sdk.js" type="text/javascript" integrity="sha512-TyQ8k8cZj66xe/aENmn6RyZpdOFZXbAo5+KBG3PeFM+Q4qMTHU8xAqmq4ADClNfPrstgQYV6OzZHwLTnElzB2g=="></script>
+  <script src="/_sdk/d80647b37084f0c6.editing_sdk.js" type="text/javascript" integrity="sha512-jCz+DtquKRDjnSrSxfhBCzqv2CNRnUAa0936TKD2DSOtf6OZkZ6z2RJ9PZqOhkoYVUsdKS+mJI9DS8ttXywBzw=="></script>
+  <script src="/_sdk/765e1fea0cec97ce.resizing_sdk.js" type="text/javascript" integrity="sha512-IRTJnqww0+HQ5V/LlWEQrlD5SrYHaVvaeVoNe8HYQXoaguzUGheSd9+n9s6WOgaTcEH0g37DuINHZ9aqfzWjlw=="></script>
+ </head>
+ <body data-template-id="__page-root" style="background: rgb(245, 247, 251);">
+  <div id="root" class="w-full"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useMemo } = React;
+
+    // Edit this one array to replace team names, source images, questions, or accepted answers.
+    const teams = [
+      { id:'eiffel', name:'TEAM 1', color:'#1877f2', soft:'#e8f1ff', image:'/assets/EIFFEL.jpg', question:'Paris is home to this tower, but it is also the headquarters of which international organization for Education, Science and Culture?', answers:['UNESCO'] },
+      { id:'opera', name:'TEAM 2', color:'#159a59', soft:'#e7f7ee', image:'/assets/OPERA.jpg', question:'This landmark is in Sydney, the city that hosted a massive global sporting event in the year 2000. What is the name of this event?', answers:['2000 Summer Olympics','Summer Olympics 2000','Sydney 2000 Olympics','Olympic Games'] },
+      { id:'liberty', name:'TEAM 3', color:'#e77016', soft:'#fff0e3', image:'/assets/LIBERTY.jpg', question:'Which country gifted the Statue of Liberty to the USA as a symbol of friendship?', answers:['France'] },
+      { id:'great', name:'TEAM 4', color:'#7546d9', soft:'#f0eaff', image:'/assets/GREAT.jpg', question:'While famous for this wall, China also created an ancient trade route linking the East and the West. What is its name?', answers:['Silk Road','The Silk Road'] }
+    ];
+
+    const SIZE = 100, GRID = 5;
+    const keyFor = (r,c) => `${r}-${c}`;
+    const shuffle = (items) => [...items].sort(() => Math.random() - .5);
+    const pieces = Array.from({length:25}, (_,i) => ({ id:i, row:Math.floor(i/5), col:i%5 }));
+
+    // Deterministic shared edge data: right/bottom neighbors always receive complementary edges.
+    function edge(r,c,side) {
+      if ((side==='top' && r===0) || (side==='left' && c===0) || (side==='right' && c===4) || (side==='bottom' && r===4)) return 0;
+      const seed = side==='top' ? (r-1)*11+c*7 : side==='left' ? r*11+(c-1)*7 : side==='right' ? r*11+c*7 : r*11+c*7;
+      const sign = seed % 2 === 0 ? 1 : -1;
+      return (side==='top' || side==='left') ? -sign : sign;
+    }
+    function hEdge(x,y,sign,reverse=false) {
+      if (!sign) return `L ${x+100} ${y}`;
+      const s=sign, a=reverse?-1:1;
+      return `L ${x+30} ${y} C ${x+36} ${y} ${x+38} ${y-15*s*a} ${x+50} ${y-15*s*a} C ${x+62} ${y-15*s*a} ${x+64} ${y} ${x+70} ${y} L ${x+100} ${y}`;
+    }
+    function vEdge(x,y,sign,reverse=false) {
+      if (!sign) return `L ${x} ${y+100}`;
+      const s=sign, a=reverse?-1:1;
+      return `L ${x} ${y+30} C ${x} ${y+36} ${x+15*s*a} ${y+38} ${x+15*s*a} ${y+50} C ${x+15*s*a} ${y+62} ${x} ${y+64} ${x} ${y+70} L ${x} ${y+100}`;
+    }
+    function pathFor(piece) {
+      const {row:r,col:c}=piece;
+      const top=edge(r,c,'top'), right=edge(r,c,'right'), bottom=edge(r,c,'bottom'), left=edge(r,c,'left');
+      const bottomPath = bottom ? `L 70 100 C 64 100 62 ${100+15*bottom} 50 ${100+15*bottom} C 38 ${100+15*bottom} 36 100 30 100 L 0 100` : `L 0 100`;
+      const leftPath = left ? `L 0 70 C 0 64 ${-15*left} 62 ${-15*left} 50 C ${-15*left} 38 0 36 0 30 L 0 0` : `L 0 0`;
+      return `M 0 0 ${hEdge(0,0,top)} ${vEdge(100,0,right)} ${bottomPath} ${leftPath} Z`;
+    }
+    function PieceSvg({piece, image, className=''}) {
+      const id=`clip-${piece.id}-${image.replace(/[^a-z]/gi,'').slice(-8)}`;
+      return <svg viewBox="-18 -18 136 136" className={className} aria-hidden="true">
+        <defs><clipPath id={id}><path d={pathFor(piece)} /></clipPath></defs>
+        <image href={image} x={-piece.col*100} y={-piece.row*100} width="500" height="500" preserveAspectRatio="xMidYMid slice" clipPath={`url(#${id})`} />
+        <path d={pathFor(piece)} fill="none" stroke="rgba(20,29,45,.42)" strokeWidth="2" strokeLinejoin="round" />
+      </svg>;
+    }
+
+    function Timer({running, resetToken}) {
+      const [seconds,setSeconds]=useState(0);
+      useEffect(()=>{ setSeconds(0); },[resetToken]);
+      useEffect(()=>{ if(!running)return; const t=setInterval(()=>setSeconds(s=>s+1),1000); return()=>clearInterval(t); },[running]);
+      return <div className="mono text-sm font-bold tracking-wide text-slate-600" aria-label={`Elapsed time ${Math.floor(seconds/60)} minutes ${seconds%60} seconds`}>
+        <i data-lucide="timer" className="inline-block w-4 h-4 mr-2 align-text-bottom"></i>{String(Math.floor(seconds/60)).padStart(2,'0')}:{String(seconds%60).padStart(2,'0')}
+      </div>;
+    }
+
+    function ProgressBar({count,color}) {
+      return <div>
+        <div className="flex justify-between gap-3 mb-2 mono text-xs font-bold tracking-wide">
+          <span>PROGRESS: {count} / 25</span><span>{Math.round(count/25*100)}%</span>
+        </div>
+        <div className="h-3 rounded-full bg-slate-200 overflow-hidden" aria-label={`${count} of 25 pieces placed`} role="progressbar" aria-valuemin="0" aria-valuemax="25" aria-valuenow={count}>
+          <div className="h-full rounded-full transition-all duration-500" style={{width:`${count*4}%`,background:color}}></div>
+        </div>
+      </div>
+    }
+
+    function HomePage() {
+      return <main className="min-h-screen px-5 py-10 sm:px-8" style={{background:'linear-gradient(135deg,#f7f8fc,#eef3fb)'}}>
+        <section className="max-w-5xl mx-auto">
+          <header className="text-center mb-10 fade-up">
+            <div className="inline-flex rounded-full bg-white border border-slate-200 px-4 py-2 mono text-xs font-bold tracking-widest text-slate-600 mb-5">EDUCATIONAL LANDMARK CHALLENGE</div>
+            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 mb-4">🏁 PUZZLE RACE</h1>
+            <p className="max-w-xl mx-auto text-lg text-slate-600">Race your team to rebuild a world landmark, then unlock the final question.</p>
+          </header>
+          <nav aria-label="Choose a team" className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {teams.map((team,i)=><a key={team.id} href={`#/${team.id}`} className="fade-up group rounded-3xl p-7 sm:p-8 text-white no-underline shadow-lg transition duration-200 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-slate-900" style={{background:team.color,animationDelay:`${i*.08}s`}}>
+              <div className="flex items-center justify-between gap-4">
+                <div><div className="mono text-sm font-bold opacity-80 mb-2">READY TO RACE</div><div className="text-3xl font-extrabold">{team.name}</div></div>
+                <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30"><i data-lucide="arrow-right" className="w-7 h-7"></i></div>
+              </div>
+              <div className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-extrabold" style={{color:team.color}}>START <i data-lucide="play" className="w-4 h-4 fill-current"></i></div>
+            </a>)}
+          </nav>
+          <p className="text-center text-sm text-slate-500 mt-8">Each team opens a separate puzzle route. Matching pieces lock into place.</p>
+        </section>
+      </main>
+    }
+
+    function QuestionModal({team,onReset,onHome}) {
+      const [answer,setAnswer]=useState(''), [feedback,setFeedback]=useState(''), [won,setWon]=useState(false);
+      useEffect(()=>{ const h=e=>{if(e.key==='Escape'&&!won) setFeedback('');}; window.addEventListener('keydown',h); return()=>window.removeEventListener('keydown',h);},[won]);
+      const submit=e=>{ e.preventDefault(); const valid=team.answers.some(a=>a.trim().toLowerCase()===answer.trim().toLowerCase()); if(valid){setWon(true);setFeedback('Correct! Your team wins!');}else setFeedback('Not quite. Try again.'); };
+      return <div className="modal-backdrop fixed inset-0 z-50 overflow-y-auto bg-slate-950/55 p-4 flex items-center justify-center" role="presentation">
+        <section className="modal-card relative w-full max-w-xl rounded-3xl bg-white p-6 sm:p-9 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="question-title">
+          {won && <div className="absolute inset-x-0 top-0 h-2 rounded-t-3xl" style={{background:team.color}}></div>}
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl mb-5" style={{background:team.soft}}>🏆</div>
+          <p className="mono text-xs font-bold tracking-widest mb-2" style={{color:team.color}}>{won?'WINNER':'QUESTION UNLOCKED'}</p>
+          <h2 id="question-title" className="text-2xl sm:text-3xl font-extrabold text-slate-900">{won ? `${team.name} WINS!` : `🎉 CONGRATULATIONS, ${team.name}!`}</h2>
+          {!won && <p className="mt-2 text-slate-600">You completed the picture!</p>}
+          {won ? <p className="mt-5 rounded-2xl p-4 text-lg font-bold" style={{background:team.soft,color:team.color}} aria-live="polite">Correct! Your team wins!</p> : <form onSubmit={submit} className="mt-6">
+            <label htmlFor="answer" className="block font-bold text-slate-800 mb-3">{team.question}</label>
+            <input id="answer" value={answer} onChange={e=>setAnswer(e.target.value)} autoFocus required className="w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-base focus:border-slate-900" placeholder="Type your answer" />
+            {feedback && <p className="mt-3 font-bold" role="status" aria-live="polite" style={{color:feedback.startsWith('Correct')?team.color:'#b64040'}}>{feedback}</p>}
+            <button type="submit" className="mt-5 w-full rounded-xl px-5 py-3 font-extrabold text-white transition hover:brightness-95" style={{background:team.color}}>SUBMIT ANSWER</button>
+          </form>}
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button onClick={onReset} className="rounded-xl bg-slate-100 px-4 py-3 font-bold text-slate-800 hover:bg-slate-200">PLAY AGAIN</button>
+            <button onClick={onHome} className="rounded-xl border-2 border-slate-300 px-4 py-3 font-bold text-slate-700 hover:bg-slate-50">BACK TO HOME</button>
+          </div>
+        </section>
+      </div>
+    }
+
+    function TeamPage({team}) {
+      const [order,setOrder]=useState(()=>shuffle(pieces.map(p=>p.id)));
+      const [placed,setPlaced]=useState({});
+      const [message,setMessage]=useState('');
+      const [complete,setComplete]=useState(false);
+      const [showQuestion,setShowQuestion]=useState(false);
+      const [imageError,setImageError]=useState(false);
+      const [resetToken,setResetToken]=useState(0);
+      const ghostRef=useRef(null);
+      const dragRef=useRef(null);
+      const placedCount=Object.keys(placed).length;
+
+      useEffect(()=>{ const probe=new Image(); probe.onload=()=>setImageError(false); probe.onerror=()=>setImageError(true); probe.src=team.image; },[team.id,resetToken]);
+      useEffect(()=>{ if(placedCount===25 && !complete){ setComplete(true); setTimeout(()=>setShowQuestion(true),650); } },[placedCount,complete]);
+      useEffect(()=>{ lucide.createIcons(); });
+
+      const reset=()=>{setOrder(shuffle(pieces.map(p=>p.id)));setPlaced({});setMessage('New puzzle ready. Good luck!');setComplete(false);setShowQuestion(false);setResetToken(n=>n+1);};
+      const startDrag=(event,piece)=>{
+        if(placed[piece.id]||imageError) return;
+        event.currentTarget.setPointerCapture?.(event.pointerId);
+        const ghost=document.createElement('div'); ghost.className='ghost';
+        ghost.innerHTML=event.currentTarget.innerHTML; document.body.appendChild(ghost);
+        ghost.style.left=event.clientX+'px';ghost.style.top=event.clientY+'px';
+        ghostRef.current=ghost; dragRef.current={piece};
+      };
+      const moveDrag=event=>{if(ghostRef.current){ghostRef.current.style.left=event.clientX+'px';ghostRef.current.style.top=event.clientY+'px';}};
+      const endDrag=event=>{
+        const drag=dragRef.current; if(!drag)return;
+        ghostRef.current?.remove(); ghostRef.current=null; dragRef.current=null;
+        const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-slot]');
+        if(target && Number(target.dataset.slot)===drag.piece.id && !placed[drag.piece.id]) {
+          setPlaced(prev=>({...prev,[drag.piece.id]:true})); setMessage('Perfect match! This piece is locked.');
+        } else setMessage('Try another slot.');
+      };
+      const loose=order.map(id=>pieces[id]).filter(p=>!placed[p.id]);
+
+      return <main className="min-h-screen p-4 sm:p-7" style={{background:'linear-gradient(135deg,#f8fafc,#eef2f8)'}}>
+        <div className="max-w-7xl mx-auto">
+          <header className="rounded-3xl bg-white border border-slate-200 px-5 py-5 sm:px-7 shadow-sm flex flex-wrap items-center justify-between gap-4">
+            <div><a href="#/" className="inline-flex items-center gap-1 text-sm font-bold text-slate-500 hover:text-slate-900"><i data-lucide="arrow-left" className="w-4 h-4"></i> Back to Home</a><h1 className="text-2xl sm:text-3xl font-extrabold mt-2">🏁 PUZZLE RACE <span className="text-slate-400">–</span> <span style={{color:team.color}}>{team.name}</span></h1></div>
+            <Timer running={!complete} resetToken={resetToken}/>
+          </header>
+
+          <section className="mt-5 rounded-3xl bg-white border border-slate-200 p-5 sm:p-7 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-6">
+              <div><p className="mono text-xs font-bold tracking-widest" style={{color:team.color}}>YOUR ROUTE</p><h2 className="text-xl font-extrabold mt-1">{team.name} Landmark Puzzle</h2></div>
+              <div className="w-full md:w-80"><ProgressBar count={placedCount} color={team.color}/></div>
+            </div>
+            {imageError ? <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-5 text-red-800"><strong>Image unavailable.</strong> The landmark image could not be loaded. Please check the supplied asset filename and try again.</div> :
+            <div className="game-grid grid grid-cols-[minmax(0,1.2fr)_minmax(280px,.8fr)] gap-7 items-start">
+              <section aria-label="Puzzle board" className="rounded-2xl p-3 sm:p-5 border-2" style={{background:team.soft,borderColor:team.color+'40'}}>
+                {complete && <div className="mb-4 rounded-xl px-4 py-3 font-bold text-center text-white" style={{background:team.color}}>Picture complete! Question unlocked.</div>}
+                <div className="grid grid-cols-5 w-full max-w-[620px] mx-auto aspect-square">
+                  {pieces.map(piece=><div key={piece.id} data-slot={piece.id} className={`slot relative aspect-square flex items-center justify-center ${placed[piece.id]?'locked':''}`} aria-label={`Target position row ${piece.row+1}, column ${piece.col+1}`}>
+                    {placed[piece.id] ? <PieceSvg piece={piece} image={team.image} className="w-[130%] h-[130%] relative z-10" /> :
+                    <svg viewBox="-18 -18 136 136" className="w-[130%] h-[130%]" aria-hidden="true"><path d={pathFor(piece)} fill="rgba(255,255,255,.55)" stroke={team.color} strokeWidth="1.6" strokeDasharray="4 4"/></svg>}
+                  </div>)}
+                </div>
+              </section>
+
+              <aside className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+                <h2 className="font-extrabold text-lg">Piece tray</h2>
+                <p className="text-sm text-slate-600 mt-1">Drag and drop pieces into the matching spaces.</p>
+                <div className="tray-grid grid grid-cols-5 gap-1 sm:gap-2 mt-5">
+                  {loose.map(piece=><button key={piece.id} type="button" className="piece-button aspect-square rounded-md" aria-label={`Puzzle piece row ${piece.row+1}, column ${piece.col+1}`} onPointerDown={e=>startDrag(e,piece)} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
+                    <PieceSvg piece={piece} image={team.image} className="w-full h-full"/>
+                  </button>)}
+                  {!loose.length && <div className="col-span-5 rounded-xl bg-white p-4 text-center text-sm font-bold text-slate-600">All pieces placed!</div>}
+                </div>
+                <div className="mt-5 rounded-xl bg-white border border-slate-200 p-3 text-sm text-slate-600"><i data-lucide="mouse-pointer-2" className="inline w-4 h-4 mr-1"></i> Matching pieces lock into place.</div>
+              </aside>
+            </div>}
+            <p role="status" aria-live="polite" className="mt-5 min-h-6 text-center font-bold" style={{color:team.color}}>{message}</p>
+            <footer className="mt-3 text-center text-sm font-semibold text-slate-500">Place all 25 pieces to unlock the question!</footer>
+          </section>
+          <section className="mt-5 rounded-2xl bg-white border border-slate-200 p-4">
+            <h2 className="mono text-xs font-bold tracking-widest text-slate-500 mb-3">TEAM STATUS</h2>
+            <div className="flex flex-wrap gap-2">{teams.map(t=><a key={t.id} href={`#/${t.id}`} className="rounded-full px-3 py-2 text-xs font-bold no-underline" style={{background:t.id===team.id?t.color:t.soft,color:t.id===team.id?'white':t.color}}>{t.name}</a>)}</div>
+          </section>
+        </div>
+        {showQuestion && <QuestionModal team={team} onReset={reset} onHome={()=>location.hash='#/'}/>}
+      </main>
+    }
+
+    function App() {
+      const [route,setRoute]=useState(location.hash.replace('#/','')||'home');
+      useEffect(()=>{const fn=()=>setRoute(location.hash.replace('#/','')||'home');addEventListener('hashchange',fn);return()=>removeEventListener('hashchange',fn);},[]);
+      useEffect(()=>{lucide.createIcons();});
+      const team=teams.find(t=>t.id===route);
+      return team?<TeamPage key={team.id} team={team}/>:<HomePage/>;
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  </script>
+ 
+</body></html>
